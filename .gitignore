@@ -19,3 +19,9 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# agent skills (installed per-developer; versions are pinned in skills-lock.json)
+.agents/skills/
+.claude/skills/
+.cursor/skills/
+agent/skills/
