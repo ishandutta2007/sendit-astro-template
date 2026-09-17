@@ -21,8 +21,19 @@ export interface Props {
     </div>
 
     <!-- Main content - Vimeo embed -->
-    <div class="aspect-video" data-editable="component" data-prop-videoid="video_url" data-component="shared/Vimeo">
-      <Vimeo videoid={video_url} title="Video Player" responsive={true} autoplay={true} class="w-full h-full" />
+    <div
+      class="aspect-video"
+      data-editable="component"
+      data-prop-videoid="video_url"
+      data-component="shared/Vimeo"
+    >
+      <Vimeo
+        videoid={video_url}
+        title="Video Player"
+        responsive={true}
+        autoplay={true}
+        class="w-full h-full"
+      />
     </div>
   </Modal>
 
@@ -31,33 +42,27 @@ export interface Props {
       <div class="w-full lg:w-5/6 mx-auto">
         <div class="relative z-10">
           <div class="rounded-[20px] overflow-hidden relative">
-            {
-              image && (
-                <Image
-                  data-editable="image"
-                  data-prop-src="image"
-                  data-prop-alt="image_alt"
-                  src={image}
-                  alt={image_alt}
-                  width={1200}
-                  height={675}
-                  class="w-full"
-                  loading="lazy"
-                />
-              )
-            }
+            {image && (
+              <Image
+                data-editable="image"
+                data-prop-src="image"
+                data-prop-alt="image_alt"
+                src={image}
+                alt={image_alt}
+                width={1200}
+                height={675}
+                class="w-full"
+                loading="lazy"
+              />
+            )}
             <!-- Red overlay -->
             <div class="absolute inset-0 bg-red-600 opacity-20 rounded-[20px]"></div>
           </div>
 
           <!-- Decorative effect one -->
-          <div
-            class="absolute top-[54%] -left-[89px] -z-10 w-[669px] h-[339px] bg-primary/40 xl:top-[37%] lg:top-[30%] md:top-[40%] md:bg-contain md:bg-no-repeat mask-[url(/images/video/effect-one.avif)] mask-size-[70%] mask-no-repeat">
-          </div>
+          <div class="absolute top-[54%] -left-[89px] -z-10 w-[669px] h-[339px] bg-primary/40 xl:top-[37%] lg:top-[30%] md:top-[40%] md:bg-contain md:bg-no-repeat mask-[url(/images/video/effect-one.avif)] mask-size-[70%] mask-no-repeat"></div>
           <!-- Decorative effect two -->
-          <div
-            class="absolute -top-24 -right-20 -z-10 w-[583px] h-[398px] bg-primary/40 lg:-top-[70px] md:-right-[234px] md:bg-contain md:bg-no-repeat mask-[url(/images/video/effect-two.avif)] mask-size-[70%] [-webkit-mask-size:70%] mask-no-repeat">
-          </div>
+          <div class="absolute -top-24 -right-20 -z-10 w-[583px] h-[398px] bg-primary/40 lg:-top-[70px] md:-right-[234px] md:bg-contain md:bg-no-repeat mask-[url(/images/video/effect-two.avif)] mask-size-[70%] [-webkit-mask-size:70%] mask-no-repeat"></div>
           <!-- Video play button -->
           <div class="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
             <div class="video-play-wrapper relative">
@@ -66,11 +71,20 @@ export interface Props {
                 onclick="document.getElementById('video-modal').showModal()"
                 class="relative w-[86px] h-[86px] border-2 border-primary rounded-full bg-primary z-10 outline-none flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95"
                 aria-label="Play video"
-                role="button">
-                <svg width="28" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-0.5">
+                role="button"
+              >
+                <svg
+                  width="28"
+                  height="32"
+                  viewBox="0 0 28 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ml-0.5"
+                >
                   <path
                     d="M26 12.5359C28.6667 14.0755 28.6667 17.9245 26 19.4641L6.5 30.7224C3.83333 32.262 0.499998 30.3375 0.499999 27.2583L0.5 4.74167C0.5 1.66247 3.83333 -0.262033 6.5 1.27757L26 12.5359Z"
-                    fill="white"></path>
+                    fill="white"
+                  ></path>
                 </svg>
               </button>
             </div>

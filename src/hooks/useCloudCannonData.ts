@@ -1,12 +1,12 @@
-import type {
-  CloudCannonJavaScriptV1APIFile
-} from "@cloudcannon/javascript-api";
-import { useCallback, useEffect, useState } from 'react';
+import type { CloudCannonJavaScriptV1APIFile } from "@cloudcannon/javascript-api";
+import { useCallback, useEffect, useState } from "react";
 import { useCloudCannonAPI } from "./useCloudCannonAPI";
 
-export const useCloudCannonData = (filename: string): {
-  file: CloudCannonJavaScriptV1APIFile | undefined,
-  data: Record<string, any> | any[] | undefined
+export const useCloudCannonData = (
+  filename: string,
+): {
+  file: CloudCannonJavaScriptV1APIFile | undefined;
+  data: Record<string, any> | any[] | undefined;
 } => {
   const cloudcannonAPI = useCloudCannonAPI();
   const file = cloudcannonAPI?.file(filename);
@@ -22,17 +22,17 @@ export const useCloudCannonData = (filename: string): {
     if (!file) {
       return;
     }
-    
+
     updateTheme();
-    file.data.addEventListener('change', updateTheme);
+    file.data.addEventListener("change", updateTheme);
 
     return () => {
-      file.data.removeEventListener('change', updateTheme);
-    }
-  }, [file, updateTheme])
+      file.data.removeEventListener("change", updateTheme);
+    };
+  }, [file, updateTheme]);
 
   return {
     file,
-    data: value
+    data: value,
   };
 };

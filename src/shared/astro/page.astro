@@ -4,7 +4,7 @@ const componentImports = import.meta.glob(
   "../../components/**/*.{jsx,tsx,astro}",
   {
     eager: true,
-  }
+  },
 );
 
 Object.entries(componentImports).forEach(([path, mod]: [string, any]) => {
@@ -32,21 +32,19 @@ const { content_blocks } = Astro.props;
   data-id-key="_name"
   data-component-key="_name"
 >
-  {
-    content_blocks.map((block: any) => {
-      const key = block._name;
-      const Component = components[key];
-      if (!Component) {
-        console.warn(`Unknown component for block key '${key}'`, block);
-        return null;
-      }
-      return (
-        <editable-array-item data-id={block._name} data-component={block._name}>
-          <editable-component data-component={block._name} data-prop="">
-            <Component {...block} />
-          </editable-component>
-        </editable-array-item>
-      );
-    })
-  }
+  {content_blocks.map((block: any) => {
+    const key = block._name;
+    const Component = components[key];
+    if (!Component) {
+      console.warn(`Unknown component for block key '${key}'`, block);
+      return null;
+    }
+    return (
+      <editable-array-item data-id={block._name} data-component={block._name}>
+        <editable-component data-component={block._name} data-prop="">
+          <Component {...block} />
+        </editable-component>
+      </editable-array-item>
+    );
+  })}
 </main>

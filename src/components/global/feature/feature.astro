@@ -25,62 +25,100 @@ const { image, image_alt, title, description, button, reversed } = Astro.props;
 
 <section class="py-16 sm:py-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {
-      reversed ? (
-        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-          <div class="w-full lg:w-1/2">
-            <div class="relative mb-7 sm:mb-8 lg:mb-10 2xl:mb-16 z-10">
-              <div class="card-image relative z-10">
-                <Image
-                  data-editable="image"
-                  data-prop-src="image"
-                  data-prop-alt="image_alt"
-                  src={image}
-                  alt={image_alt}
-                  loading="lazy"
-                  width={696}
-                  height={752}
-                />
-              </div>
-              <div class="absolute -top-[8%] -left-[11%] lg:-left-[4%] w-[110%] lg:w-[102%] h-[125%] lg:h-[117%] -z-10 bg-primary/40 mask-[url(/images/feature/effect-1.png)] mask-repeat mask-contain " />
+    {reversed ? (
+      <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+        <div class="w-full lg:w-1/2">
+          <div class="relative mb-7 sm:mb-8 lg:mb-10 2xl:mb-16 z-10">
+            <div class="card-image relative z-10">
+              <Image
+                data-editable="image"
+                data-prop-src="image"
+                data-prop-alt="image_alt"
+                src={image}
+                alt={image_alt}
+                loading="lazy"
+                width={696}
+                height={752}
+              />
             </div>
-          </div>
-          <div class="w-full lg:w-1/2">
-            <div class="mb-7 md:mb-10 xl:mb-16 2xl:ps-8 relative z-20">
-              <Heading level={2} text={title} data-prop="title" data-editable="text" class={"pb-6"} />
-              <div class="mt-4" data-editable="text" data-prop="description" set:html={md.render(description)} />
-              {button && <Button class="mt-4" href={button.link} data-editable="text" data-prop="button.text" variant={"link"} text={button.text} />}
-            </div>
+            <div class="absolute -top-[8%] -left-[11%] lg:-left-[4%] w-[110%] lg:w-[102%] h-[125%] lg:h-[117%] -z-10 bg-primary/40 mask-[url(/images/feature/effect-1.png)] mask-repeat mask-contain" />
           </div>
         </div>
-      ) : (
-        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-          <div class="relative w-full lg:w-1/2 order-2 lg:order-1 z-20">
-            <div class="mb-7 md:mb-10 xl:mb-16 2xl:ps-8 ">
-              <Heading level={2} text={title} data-prop="title" data-editable="text" class="xl:pe-0" />
-              <div class="mt-4" data-editable="text" data-prop="description" set:html={md.render(description)} />
-              {button && <Button class="mt-4" href={button.link} data-editable="text" data-prop="button.text" variant={"link"} text={button.text} />}
-            </div>
-          </div>
-          <div class="w-full lg:w-1/2 order-1 lg:order-2">
-            <div class="relative mb-7 sm:mb-8 lg:mb-10 2xl:mb-16 z-10 overflow-hidden">
-              <div class="card-image relative z-10">
-                <Image
-                  data-editable="image"
-                  data-prop-src="image"
-                  data-prop-alt="image_alt"
-                  src={image}
-                  alt={image_alt}
-                  loading="lazy"
-                  width={696}
-                  height={752}
-                />
-              </div>
-              <div class="absolute -top-[21%] sm:-top-[8%] -right-[17%] xl:-right-[9%] w-[132%] xl:w-[105%] h-[130%] -z-10 bg-primary/40 mask-[url(/images/feature/effect-2.png)] mask-repeat [-webkit-mask-repeat:no-repeat] mask-contain" />
-            </div>
+        <div class="w-full lg:w-1/2">
+          <div class="mb-7 md:mb-10 xl:mb-16 2xl:ps-8 relative z-20">
+            <Heading
+              level={2}
+              text={title}
+              data-prop="title"
+              data-editable="text"
+              class={"pb-6"}
+            />
+            <div
+              class="mt-4"
+              data-editable="text"
+              data-prop="description"
+              set:html={md.render(description)}
+            />
+            {button && (
+              <Button
+                class="mt-4"
+                href={button.link}
+                data-editable="text"
+                data-prop="button.text"
+                variant={"link"}
+                text={button.text}
+              />
+            )}
           </div>
         </div>
-      )
-    }
+      </div>
+    ) : (
+      <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+        <div class="relative w-full lg:w-1/2 order-2 lg:order-1 z-20">
+          <div class="mb-7 md:mb-10 xl:mb-16 2xl:ps-8">
+            <Heading
+              level={2}
+              text={title}
+              data-prop="title"
+              data-editable="text"
+              class="xl:pe-0"
+            />
+            <div
+              class="mt-4"
+              data-editable="text"
+              data-prop="description"
+              set:html={md.render(description)}
+            />
+            {button && (
+              <Button
+                class="mt-4"
+                href={button.link}
+                data-editable="text"
+                data-prop="button.text"
+                variant={"link"}
+                text={button.text}
+              />
+            )}
+          </div>
+        </div>
+        <div class="w-full lg:w-1/2 order-1 lg:order-2">
+          <div class="relative mb-7 sm:mb-8 lg:mb-10 2xl:mb-16 z-10 overflow-hidden">
+            <div class="card-image relative z-10">
+              <Image
+                data-editable="image"
+                data-prop-src="image"
+                data-prop-alt="image_alt"
+                src={image}
+                alt={image_alt}
+                loading="lazy"
+                width={696}
+                height={752}
+              />
+            </div>
+            <div class="absolute -top-[21%] sm:-top-[8%] -right-[17%] xl:-right-[9%] w-[132%] xl:w-[105%] h-[130%] -z-10 bg-primary/40 mask-[url(/images/feature/effect-2.png)] mask-repeat [-webkit-mask-repeat:no-repeat] mask-contain" />
+          </div>
+        </div>
+      </div>
+    )}
   </div>
 </section>

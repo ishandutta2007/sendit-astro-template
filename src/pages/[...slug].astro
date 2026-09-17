@@ -10,11 +10,12 @@ export interface Props {
 export async function getStaticPaths() {
   const pages = await getCollection("pages", ({ data }) => {
     const dataAny = data as any;
-    return !('hidden' in dataAny && dataAny.hidden);
+    return !("hidden" in dataAny && dataAny.hidden);
   });
   return pages.map((page) => {
     const slug = page.id.replace(/index$/, "");
-    if (slug.length === 0) return { params: { slug: undefined }, props: { page } };
+    if (slug.length === 0)
+      return { params: { slug: undefined }, props: { page } };
     return { params: { slug }, props: { page } };
   });
 }
@@ -25,6 +26,7 @@ const pageData = page.data as any;
 // Pages without content_blocks (like template-examples) render content directly
 const { Content } = await render(page);
 ---
+
 {pageData.content_blocks ? (
   <PageLayout frontmatter={pageData} />
 ) : (
@@ -32,5 +34,3 @@ const { Content } = await render(page);
     <Content />
   </Layout>
 )}
-
-

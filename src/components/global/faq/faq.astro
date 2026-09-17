@@ -33,40 +33,36 @@ const { title_suffix, description, FAQ, title } = Astro.props;
               </editable-text>
             </span>
           </Heading>
-          {
-            description && (
-              <div
-                class="text-lg text-gray-600 leading-relaxed"
-                data-editable="text"
-                data-prop="description"
-                set:html={md.render(description)}
-              />
-            )
-          }
+          {description && (
+            <div
+              class="text-lg text-gray-600 leading-relaxed"
+              data-editable="text"
+              data-prop="description"
+              set:html={md.render(description)}
+            />
+          )}
         </div>
       </div>
     </div>
-    {
-      FAQ?.length && (
-        <div class="flex justify-center">
-          <div class="w-full">
-            <div
-              class="space-y-4 grid gap-3"
-              data-editable="array"
-              data-prop="FAQ"
-            >
-              {
-                <template>
-                  <FaqItem faq={{ title: "", description: "" }} i={0} />
-                </template>
-              }
-              {FAQ?.map((q: FaqItemData, i: number) => (
-                <FaqItem faq={q} i={i} data-editable="array-item" />
-              ))}
-            </div>
+    {FAQ?.length && (
+      <div class="flex justify-center">
+        <div class="w-full">
+          <div
+            class="space-y-4 grid gap-3"
+            data-editable="array"
+            data-prop="FAQ"
+          >
+            {
+              <template>
+                <FaqItem faq={{ title: "", description: "" }} i={0} />
+              </template>
+            }
+            {FAQ?.map((q: FaqItemData, i: number) => (
+              <FaqItem faq={q} i={i} data-editable="array-item" />
+            ))}
           </div>
         </div>
-      )
-    }
+      </div>
+    )}
   </div>
 </section>

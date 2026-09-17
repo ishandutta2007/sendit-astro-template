@@ -15,7 +15,7 @@ export interface Props {
 }
 
 const {
-  videoid : videoId,
+  videoid: videoId,
   title = "Vimeo video player",
   width = 640,
   height = 360,
@@ -37,7 +37,8 @@ function extractVimeoId(url: string): string {
   if (/^\d+$/.test(url)) return url;
 
   // Extract from various Vimeo URL formats
-  const vimeoRegex = /(?:vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|))(\d+)(?:$|\/|\?)/;
+  const vimeoRegex =
+    /(?:vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|))(\d+)(?:$|\/|\?)/;
   const match = url.match(vimeoRegex);
 
   return match ? match[1] : url;
@@ -67,19 +68,19 @@ const embedUrl = `https://player.vimeo.com/video/${cleanVideoId}${params.toStrin
 const componentId = `vimeo-${cleanVideoId}-${Math.random().toString(36).substr(2, 9)}`;
 
 // Responsive wrapper classes
-const wrapperClasses = responsive ? "relative w-full h-0 pb-[56.25%] overflow-hidden rounded-lg" : "inline-block rounded-lg overflow-hidden";
+const wrapperClasses = responsive
+  ? "relative w-full h-0 pb-[56.25%] overflow-hidden rounded-lg"
+  : "inline-block rounded-lg overflow-hidden";
 
 // Iframe classes
-const iframeClasses = responsive ? "absolute top-0 left-0 w-full h-full border-0" : "border-0 rounded-lg";
+const iframeClasses = responsive
+  ? "absolute top-0 left-0 w-full h-full border-0"
+  : "border-0 rounded-lg";
 
 const containerClasses = `${wrapperClasses} ${className}`.trim();
-
 ---
 
-<div 
-  class={containerClasses} 
-  id={componentId}
->
+<div class={containerClasses} id={componentId}>
   <iframe
     src={lazyLoad ? undefined : embedUrl}
     data-src={lazyLoad ? embedUrl : undefined}
@@ -87,117 +88,121 @@ const containerClasses = `${wrapperClasses} ${className}`.trim();
     height={responsive ? undefined : height}
     class={iframeClasses}
     title={title}
-    allow={preventTabAutoplay ? "fullscreen; picture-in-picture" : "autoplay; fullscreen; picture-in-picture"}
+    allow={
+      preventTabAutoplay
+        ? "fullscreen; picture-in-picture"
+        : "autoplay; fullscreen; picture-in-picture"
+    }
     allowfullscreen
     loading="lazy"
-    >
+  >
   </iframe>
 </div>
 
-{preventTabAutoplay && (
-  <script define:vars={{ componentId, embedUrl, lazyLoad }}>
-    // Prevent Vimeo from auto-playing when tab becomes visible
-    (function() {
-      const container = document.getElementById(componentId);
-      if (!container) return;
-      
-      const iframe = container.querySelector('iframe');
-      if (!iframe) return;
+{preventTabAutoplay && <script
+  define:vars={{ componentId, embedUrl, lazyLoad }}
+>
+  // Prevent Vimeo from auto-playing when tab becomes visible
+  (function () {
+    const container = document.getElementById(componentId);
+    if (!container) return;
 
-      let isTabVisible = !document.hidden;
-      let hasUserInteracted = false;
-      let vimeoPlayer = null;
+    const iframe = container.querySelector("iframe");
+    if (!iframe) return;
 
-      // Load Vimeo Player API if needed
-      function loadVimeoAPI() {
-        return new Promise((resolve) => {
-          if (window.Vimeo) {
-            resolve(window.Vimeo);
-            return;
-          }
-          
-          const script = document.createElement('script');
-          script.src = 'https://player.vimeo.com/api/player.js';
-          script.onload = () => resolve(window.Vimeo);
-          document.head.appendChild(script);
+    let isTabVisible = !document.hidden;
+    let hasUserInteracted = false;
+    let vimeoPlayer = null;
+
+    // Load Vimeo Player API if needed
+    function loadVimeoAPI() {
+      return new Promise((resolve) => {
+        if (window.Vimeo) {
+          resolve(window.Vimeo);
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.src = "https://player.vimeo.com/api/player.js";
+        script.onload = () => resolve(window.Vimeo);
+        document.head.appendChild(script);
+      });
+    }
+
+    // Initialize iframe source if lazy loading
+    function initializeIframe() {
+      if (lazyLoad && !iframe.src) {
+        iframe.src = embedUrl;
+      }
+    }
+
+    // Handle tab visibility changes
+    function handleVisibilityChange() {
+      const isNowVisible = !document.hidden;
+
+      if (isNowVisible && !isTabVisible && vimeoPlayer && !hasUserInteracted) {
+        // Tab became visible but user hasn't interacted - pause the video
+        vimeoPlayer.pause().catch(() => {
+          // Fallback: reload iframe to stop playback
+          const currentSrc = iframe.src;
+          iframe.src = "";
+          setTimeout(() => {
+            iframe.src = currentSrc;
+          }, 100);
         });
       }
 
-      // Initialize iframe source if lazy loading
-      function initializeIframe() {
-        if (lazyLoad && !iframe.src) {
-          iframe.src = embedUrl;
-        }
-      }
+      isTabVisible = isNowVisible;
+    }
 
-      // Handle tab visibility changes
-      function handleVisibilityChange() {
-        const isNowVisible = !document.hidden;
-        
-        if (isNowVisible && !isTabVisible && vimeoPlayer && !hasUserInteracted) {
-          // Tab became visible but user hasn't interacted - pause the video
-          vimeoPlayer.pause().catch(() => {
-            // Fallback: reload iframe to stop playback
-            const currentSrc = iframe.src;
-            iframe.src = '';
-            setTimeout(() => {
-              iframe.src = currentSrc;
-            }, 100);
+    // Track user interaction
+    function handleUserInteraction() {
+      hasUserInteracted = true;
+      // Remove listeners after first interaction
+      container.removeEventListener("click", handleUserInteraction);
+      container.removeEventListener("touchstart", handleUserInteraction);
+    }
+
+    // Initialize
+    function initialize() {
+      // Set up lazy loading
+      if (lazyLoad) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              initializeIframe();
+              observer.unobserve(entry.target);
+
+              // Initialize Vimeo player after iframe loads
+              iframe.onload = () => {
+                loadVimeoAPI().then((Vimeo) => {
+                  vimeoPlayer = new Vimeo.Player(iframe);
+                });
+              };
+            }
           });
-        }
-        
-        isTabVisible = isNowVisible;
-      }
-
-      // Track user interaction
-      function handleUserInteraction() {
-        hasUserInteracted = true;
-        // Remove listeners after first interaction
-        container.removeEventListener('click', handleUserInteraction);
-        container.removeEventListener('touchstart', handleUserInteraction);
-      }
-
-      // Initialize
-      function initialize() {
-        // Set up lazy loading
-        if (lazyLoad) {
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                initializeIframe();
-                observer.unobserve(entry.target);
-                
-                // Initialize Vimeo player after iframe loads
-                iframe.onload = () => {
-                  loadVimeoAPI().then((Vimeo) => {
-                    vimeoPlayer = new Vimeo.Player(iframe);
-                  });
-                };
-              }
-            });
-          });
-          observer.observe(container);
-        } else {
-          // Initialize immediately
-          iframe.onload = () => {
-            loadVimeoAPI().then((Vimeo) => {
-              vimeoPlayer = new Vimeo.Player(iframe);
-            });
-          };
-        }
-
-        // Add event listeners
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-        container.addEventListener('click', handleUserInteraction);
-        container.addEventListener('touchstart', handleUserInteraction);
-      }
-
-      // Start initialization when DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initialize);
+        });
+        observer.observe(container);
       } else {
-        initialize();
+        // Initialize immediately
+        iframe.onload = () => {
+          loadVimeoAPI().then((Vimeo) => {
+            vimeoPlayer = new Vimeo.Player(iframe);
+          });
+        };
       }
-    })();
-  </script>
-)}
+
+      // Add event listeners
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      container.addEventListener("click", handleUserInteraction);
+      container.addEventListener("touchstart", handleUserInteraction);
+    }
+
+    // Start initialization when DOM is ready
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initialize);
+    } else {
+      initialize();
+    }
+  })();
+</script>}

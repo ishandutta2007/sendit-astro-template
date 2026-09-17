@@ -32,21 +32,36 @@ const {
   </div>
   <div class="p-6 space-y-4">
     <div class="flex flex-wrap gap-2">
-      {
-        tags.slice(0, 2).map((tag: string, i: number) => (
-          <a
-            data-astro-prefetch
-            href={`/tags/${tag.toLowerCase()}`}
-            class="inline-flex items-center px-3 py-1 text-sm font-medium  bg-primary/20 hover:bg-primary text-primary hover:text-secondary rounded-full transition-colors">
-            {tag[0].toUpperCase() + tag.slice(1)}
-          </a>
-        ))
-      }
+      {tags.slice(0, 2).map((tag: string, i: number) => (
+        <a
+          data-astro-prefetch
+          href={`/tags/${tag.toLowerCase()}`}
+          class="inline-flex items-center px-3 py-1 text-sm font-medium bg-primary/20 hover:bg-primary text-primary hover:text-secondary rounded-full transition-colors"
+        >
+          {tag[0].toUpperCase() + tag.slice(1)}
+        </a>
+      ))}
     </div>
-    <a data-astro-prefetch href={`/blog/${id}`} class="hover:text-primary transition-colors group">
-      <Heading level={2} size={6} text={title} class="text-xl font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-primary" />
-      <time datetime={post.data.date.toISOString()} class="text-sm text-primary">
-        {post.data.date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+    <a
+      data-astro-prefetch
+      href={`/blog/${id}`}
+      class="hover:text-primary transition-colors group"
+    >
+      <Heading
+        level={2}
+        size={6}
+        text={title}
+        class="text-xl font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-primary"
+      />
+      <time
+        datetime={post.data.date.toISOString()}
+        class="text-sm text-primary"
+      >
+        {post.data.date.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })}
       </time>
     </a>
   </div>

@@ -26,7 +26,6 @@ interface Props {
   video?: VideoType;
 }
 
-
 const { title, description, button, video } = Astro.props;
 ---
 
@@ -38,9 +37,20 @@ const { title, description, button, video } = Astro.props;
     </div>
 
     <!-- Main content - Vimeo embed -->
-    <div class="aspect-video" data-editable="component" data-prop-videoid="video" data-component="shared/Vimeo">
+    <div
+      class="aspect-video"
+      data-editable="component"
+      data-prop-videoid="video"
+      data-component="shared/Vimeo"
+    >
       {video && (
-        <Vimeo videoid={video.video_url} title="Video Player" responsive={true} autoplay={true} class="w-full h-full" />
+        <Vimeo
+          videoid={video.video_url}
+          title="Video Player"
+          responsive={true}
+          autoplay={true}
+          class="w-full h-full"
+        />
       )}
     </div>
   </Modal>
@@ -50,21 +60,21 @@ const { title, description, button, video } = Astro.props;
       <!-- Content Section -->
       <div class="lg:order-1">
         <div class="max-w-2xl">
-          <Heading 
+          <Heading
             level={2}
             text={title}
             data-prop="title"
             data-editable="text"
             class="mb-6 tracking-tight"
           />
-          <div 
-            class="text-lg text-gray-600 leading-relaxed mb-8 prose prose-lg max-w-none" 
-            data-editable="text" 
-            data-prop="description" 
-            set:html={md.render(description)} 
+          <div
+            class="text-lg text-gray-600 leading-relaxed mb-8 prose prose-lg max-w-none"
+            data-editable="text"
+            data-prop="description"
+            set:html={md.render(description)}
           />
           {button && (
-            <Button 
+            <Button
               href={button.link}
               variant="secondary"
               size="lg"
@@ -76,7 +86,7 @@ const { title, description, button, video } = Astro.props;
           )}
         </div>
       </div>
-      
+
       <!-- Video Section -->
       <div class="lg:order-2">
         {video && (

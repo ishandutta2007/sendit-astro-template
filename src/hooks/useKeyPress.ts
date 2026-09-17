@@ -15,7 +15,7 @@ interface UseKeyPressOptions {
 export function useKeyPress(
   key: string,
   callback: (event: KeyboardEvent) => void,
-  options: UseKeyPressOptions = {}
+  options: UseKeyPressOptions = {},
 ): void {
   const {
     event = "keydown",
@@ -33,10 +33,18 @@ export function useKeyPress(
     };
 
     const eventTarget = target as EventTarget;
-    eventTarget.addEventListener(event, handleKeyEvent as EventListener, eventOptions);
+    eventTarget.addEventListener(
+      event,
+      handleKeyEvent as EventListener,
+      eventOptions,
+    );
 
     return (): void => {
-      eventTarget.removeEventListener(event, handleKeyEvent as EventListener, eventOptions);
+      eventTarget.removeEventListener(
+        event,
+        handleKeyEvent as EventListener,
+        eventOptions,
+      );
     };
   }, [key, callback, event, target, eventOptions]);
 }
