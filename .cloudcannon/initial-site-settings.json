@@ -6,7 +6,7 @@
     "install_command": "npm install",
     "build_command": "npm run build",
     "output_path": "dist",
-    "node_version": "20",
+    "node_version": "24",
     "manually_configure_urls": true
   }
 }

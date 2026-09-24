@@ -21,7 +21,7 @@ Sendit is a polished, marketing website template for Astro. Browse through a [li
 
 ## Prerequisites
 
-- Node.js >= 22.12.0 (required by Astro 7). Node.js 24 is recommended — the CloudCannon CLI requires it.
+- Node.js 24+ (Astro 7 requires >= 22.12.0; the CloudCannon CLI requires 24).
 
 ## Getting Started
 
