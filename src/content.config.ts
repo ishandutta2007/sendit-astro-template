@@ -1,6 +1,6 @@
 import { defineCollection } from "astro:content";
-import { glob, file } from 'astro/loaders';
-import { z } from 'astro/zod';
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const seoSchema = z
   .object({
@@ -15,6 +15,7 @@ const seoSchema = z
   .optional();
 
 const blogCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
   schema: z.object({
     date: z.date(),
     title: z.string(),
@@ -37,7 +38,7 @@ const pageSchema = z.object({
   _schema: z.any().optional(),
   hidden: z.boolean().optional().default(false),
   title: z.string(),
-  description: z.undefined(),
+  description: z.undefined().optional(),
   seo: seoSchema,
   content_blocks: z.array(z.any()),
 });
@@ -67,8 +68,12 @@ const paginatedCollectionSchema = z.object({
   content_blocks: z.undefined().optional(),
 });
 
+// The blog index entry always uses this schema; pages import it to narrow the
+// pages union so page_size/seo/description are visible.
+export type PaginatedPage = z.infer<typeof paginatedCollectionSchema>;
+
 const pagesCollection = defineCollection({
-  // loader: glob({ pattern: "**/*.md", base: "./src/content/pages" }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/pages" }),
   schema: z.union([paginatedCollectionSchema, pageSchema, exampleSchema]),
 });
 

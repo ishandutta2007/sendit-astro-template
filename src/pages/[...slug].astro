@@ -1,7 +1,7 @@
 ---
 import PageLayout from "@layouts/PageLayout.astro";
 import Layout from "@layouts/Layout.astro";
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, render } from "astro:content";
 
 export interface Props {
   page: CollectionEntry<"pages">;
@@ -10,11 +10,12 @@ export interface Props {
 export async function getStaticPaths() {
   const pages = await getCollection("pages", ({ data }) => {
     const dataAny = data as any;
-    return !('hidden' in dataAny && dataAny.hidden);
+    return !("hidden" in dataAny && dataAny.hidden);
   });
   return pages.map((page) => {
-    const slug = page.slug.replace(/index$/, "");
-    if (slug.length === 0) return { params: { slug: undefined }, props: { page } };
+    const slug = page.id.replace(/index$/, "");
+    if (slug.length === 0)
+      return { params: { slug: undefined }, props: { page } };
     return { params: { slug }, props: { page } };
   });
 }
@@ -23,8 +24,9 @@ const page = Astro.props.page;
 const pageData = page.data as any;
 
 // Pages without content_blocks (like template-examples) render content directly
-const { Content } = await page.render();
+const { Content } = await render(page);
 ---
+
 {pageData.content_blocks ? (
   <PageLayout frontmatter={pageData} />
 ) : (
@@ -32,5 +34,3 @@ const { Content } = await page.render();
     <Content />
   </Layout>
 )}
-
-

@@ -10,7 +10,7 @@ export function GET(context) {
     description: site.description,
     site: context.site,
     items: posts.map((post) => ({
-      link: `/blog/${post.slug}`,
+      link: `/blog/${post.id}`,
       title: post.data.title,
       pubDate: post.data.date,
     })),

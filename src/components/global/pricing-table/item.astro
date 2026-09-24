@@ -24,33 +24,40 @@ interface Props {
   button?: Button;
 }
 
-const { tier, highlight_tier, description, currency_symbol, price, has_discount, discount_price, features, button } = Astro.props;
+const {
+  tier,
+  highlight_tier,
+  description,
+  currency_symbol,
+  price,
+  has_discount,
+  discount_price,
+  features,
+  button,
+} = Astro.props;
 ---
 
-
-<div class={`bg-white rounded-xl shadow-lg border transition-all duration-300 ease-in-out p-8 xl:p-10 mb-8 lg:mb-14 ${
-  highlight_tier
-    ? "border-primary lg:-mt-10"
-    : "border-white"
-}`}>
-
-  <!-- Card Header -->
-  <h5 
-    class={`text-2xl xl:text-3xl font-bold leading-tight mb-2 pl-4 xl:pl-6 transition-all duration-300 ${
-    highlight_tier
-      ? "text-primary"
-      : "text-gray-900"
+<div
+  class={`bg-white rounded-xl shadow-lg border transition-all duration-300 ease-in-out p-8 xl:p-10 mb-8 lg:mb-14 ${
+    highlight_tier ? "border-primary lg:-mt-10" : "border-white"
   }`}
+>
+  <!-- Card Header -->
+  <h5
+    class={`text-2xl xl:text-3xl font-bold leading-tight mb-2 pl-4 xl:pl-6 transition-all duration-300 ${
+      highlight_tier ? "text-primary" : "text-gray-900"
+    }`}
     data-editable="text"
     data-prop="tier"
   >
     {tier}
   </h5>
 
-  <p 
+  <p
     class="text-lg xl:text-xl leading-relaxed mb-6 pl-4 xl:pl-6 text-gray-600 font-medium tracking-tight"
     data-prop="description"
-    data-editable="text">
+    data-editable="text"
+  >
     {description}
   </p>
 
@@ -60,14 +67,20 @@ const { tier, highlight_tier, description, currency_symbol, price, has_discount,
       <>
         <!-- Discount Price Display -->
         <p class="text-4xl xl:text-5xl font-bold pl-4 xl:pl-6 mb-0 mr-4 z-10">
-          <editable-text data-prop="currency_symbol">{currency_symbol}</editable-text>
-          <editable-text data-prop="discount_price">{discount_price}</editable-text>
+          <editable-text data-prop="currency_symbol">
+            {currency_symbol}
+          </editable-text>
+          <editable-text data-prop="discount_price">
+            {discount_price}
+          </editable-text>
         </p>
 
         <!-- Original Price with Strikethrough -->
         <div class="relative flex items-center">
           <p class="text-2xl font-semibold text-gray-500 mb-0 relative z-10">
-            <editable-text data-prop="currency_symbol">{currency_symbol}</editable-text>
+            <editable-text data-prop="currency_symbol">
+              {currency_symbol}
+            </editable-text>
             <editable-text data-prop="price">{price}</editable-text>
           </p>
           <!-- Strikethrough Vector -->
@@ -82,69 +95,69 @@ const { tier, highlight_tier, description, currency_symbol, price, has_discount,
         </div>
 
         <!-- Background Shape for Discount -->
-        <div
-          class="absolute top-2 left-[10%] w-[35%] h-full -z-10 bg-[#faaa8f] mask-[url(/images/pricing/shape-two.png)] [-webkit-mask-image:url(/images/pricing/shape-two.png)] mask-no-repeat [-webkit-mask-repeat:no-repeat]"
-        />
+        <div class="absolute top-2 left-[10%] w-[35%] h-full -z-10 bg-[#faaa8f] mask-[url(/images/pricing/shape-two.png)] [-webkit-mask-image:url(/images/pricing/shape-two.png)] mask-no-repeat [-webkit-mask-repeat:no-repeat]" />
       </>
     ) : (
       <>
         <!-- Regular Price Display -->
         <p class="text-4xl xl:text-5xl font-bold pl-4 xl:pl-6 mb-0 z-10">
           <span>
-            <editable-text data-prop="currency_symbol">{currency_symbol}</editable-text>
+            <editable-text data-prop="currency_symbol">
+              {currency_symbol}
+            </editable-text>
             <editable-text data-prop="price">{price}</editable-text>
           </span>
         </p>
 
         <!-- Background Shape for Regular -->
-        <div
-          class="absolute top-2 left-[10%] w-[35%] h-full -z-10 bg-[#faaa8f] mask-[url(/images/pricing/shape-one.png)] [-webkit-mask-image:url(/images/pricing/shape-one.png)] mask-no-repeat [-webkit-mask-repeat:no-repeat]"
-        />
+        <div class="absolute top-2 left-[10%] w-[35%] h-full -z-10 bg-[#faaa8f] mask-[url(/images/pricing/shape-one.png)] [-webkit-mask-image:url(/images/pricing/shape-one.png)] mask-no-repeat [-webkit-mask-repeat:no-repeat]" />
       </>
     )}
   </div>
 
   <!-- Features List -->
   <div class="px-4 xl:px-6">
-      <ul class="space-y-6 mb-12" data-editable="array" data-prop="features" data-id-key="active_feature">
+    <ul
+      class="space-y-6 mb-12"
+      data-editable="array"
+      data-prop="features"
+      data-id-key="active_feature"
+    >
       <template data-id="true">
-          <li
-              data-editable="array-item"
-              class="flex items-center text-lg xl:text-xl leading-relaxed font-bold tracking-tight text-gray-600"
-          >
-              <i class="ph-check mr-4 xl:mr-5 text-primary"/>
-              <editable-text data-prop="item"></editable-text>
-          </li>
-      </template>
-      <template data-id="false">
-          <li
-              data-editable="array-item"
-              class="flex items-center text-lg xl:text-xl leading-relaxed font-bold tracking-tight text-gray-400"
-          >
-              <i class="ph-check mr-4 xl:mr-5 text-gray-400"/>
-              <editable-text data-prop="item"></editable-text>
-          </li>
-      </template>
-      {features?.length && features?.map((feature) => (
         <li
           data-editable="array-item"
-          data-id={String(feature.active_feature)}
-          class={`flex items-center text-lg xl:text-xl leading-relaxed font-bold tracking-tight ${
-            feature.active_feature
-              ? "text-gray-600"
-              : "text-gray-400"
-          }`}
+          class="flex items-center text-lg xl:text-xl leading-relaxed font-bold tracking-tight text-gray-600"
         >
-          <i
-            class={`ph-check mr-4 xl:mr-5 ${
-              feature.active_feature
-                ? "text-primary"
-                : "text-gray-400"
-            }`}
-          />
-          <editable-text data-prop="item">{feature.item}</editable-text>
+          <i class="ph-check mr-4 xl:mr-5 text-primary" />
+          <editable-text data-prop="item"></editable-text>
         </li>
-      ))}
+      </template>
+      <template data-id="false">
+        <li
+          data-editable="array-item"
+          class="flex items-center text-lg xl:text-xl leading-relaxed font-bold tracking-tight text-gray-400"
+        >
+          <i class="ph-check mr-4 xl:mr-5 text-gray-400" />
+          <editable-text data-prop="item"></editable-text>
+        </li>
+      </template>
+      {features?.length &&
+        features?.map((feature) => (
+          <li
+            data-editable="array-item"
+            data-id={String(feature.active_feature)}
+            class={`flex items-center text-lg xl:text-xl leading-relaxed font-bold tracking-tight ${
+              feature.active_feature ? "text-gray-600" : "text-gray-400"
+            }`}
+          >
+            <i
+              class={`ph-check mr-4 xl:mr-5 ${
+                feature.active_feature ? "text-primary" : "text-gray-400"
+              }`}
+            />
+            <editable-text data-prop="item">{feature.item}</editable-text>
+          </li>
+        ))}
     </ul>
 
     <!-- Action Button -->
@@ -162,4 +175,3 @@ const { tier, highlight_tier, description, currency_symbol, price, has_discount,
     </div>
   </div>
 </div>
-

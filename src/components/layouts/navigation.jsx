@@ -244,152 +244,151 @@ export default function Navigation({ pageUrl }) {
                       role="none"
                       data-editable="array-item"
                     >
-                      {
-                        item.dropdown?.length ? (
-                          <>
-                            <button
-                              ref={getDropdownButtonRef(i)}
-                              id={`dropdown-button-${i}`}
-                              className={`block w-full text-left px-10 lg:px-5 py-3 text-2xl lg:text-xl font-normal lg:rounded-lg transition-colors duration-200 hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset ${pageUrl?.pathname === item.link || item.dropdown?.some((dropdownItem) => pageUrl?.pathname === dropdownItem.dropdown_link) ? "text-primary" : "text-gray-700"} flex items-center lg:justify-start`}
-                              onClick={(e) => {
+                      {item.dropdown?.length ? (
+                        <>
+                          <button
+                            ref={getDropdownButtonRef(i)}
+                            id={`dropdown-button-${i}`}
+                            className={`block w-full text-left px-10 lg:px-5 py-3 text-2xl lg:text-xl font-normal lg:rounded-lg transition-colors duration-200 hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset ${pageUrl?.pathname === item.link || item.dropdown?.some((dropdownItem) => pageUrl?.pathname === dropdownItem.dropdown_link) ? "text-primary" : "text-gray-700"} flex items-center lg:justify-start`}
+                            onClick={(e) => {
+                              handleDropdownClick(e, i);
+                              // Close mobile menu if it's a regular link (not dropdown)
+                              if (!item.dropdown || window.innerWidth >= 1024) {
+                                closeMobileMenu();
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              // Handle keyboard navigation for dropdown
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
                                 handleDropdownClick(e, i);
-                                // Close mobile menu if it's a regular link (not dropdown)
-                                if (!item.dropdown || window.innerWidth >= 1024) {
-                                  closeMobileMenu();
+                              } else if (e.key === "ArrowDown") {
+                                e.preventDefault();
+                                // Open dropdown and focus first item
+                                if (openDropdown !== i) {
+                                  setOpenDropdown(i);
+                                  // Focus first dropdown item after a brief delay
+                                  setTimeout(() => {
+                                    const menuRef = getDropdownMenuRef(i);
+                                    const firstItem =
+                                      menuRef.current?.querySelector(
+                                        "a:first-child",
+                                      );
+                                    if (firstItem) firstItem.focus();
+                                  }, 50);
                                 }
-                              }}
-                              onKeyDown={(e) => {
-                                // Handle keyboard navigation for dropdown
-                                if (e.key === "Enter" || e.key === " ") {
-                                  e.preventDefault();
-                                  handleDropdownClick(e, i);
-                                } else if (e.key === "ArrowDown") {
-                                  e.preventDefault();
-                                  // Open dropdown and focus first item
-                                  if (openDropdown !== i) {
-                                    setOpenDropdown(i);
-                                    // Focus first dropdown item after a brief delay
-                                    setTimeout(() => {
-                                      const menuRef = getDropdownMenuRef(i);
-                                      const firstItem =
-                                        menuRef.current?.querySelector(
-                                          "a:first-child",
-                                        );
-                                      if (firstItem) firstItem.focus();
-                                    }, 50);
-                                  }
-                                }
-                              }}
-                              role="menuitem"
-                              aria-haspopup="true"
-                              aria-expanded={openDropdown === i}
-                              aria-controls={`dropdown-menu-${i}`}
-                            >
-                              <editable-text data-prop="text">
-                                {item.text}
-                              </editable-text>
-                              <svg
-                                className={`ml-2 w-4 h-4 transition-transform duration-200 ${openDropdown === i ? "rotate-180" : ""}`}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M19 9l-7 7-7-7"
-                                />
-                              </svg>
-                            </button>
-                            <ul
-                              ref={getDropdownMenuRef(i)}
-                              id={`dropdown-menu-${i}`}
-                              className={`lg:absolute lg:top-full lg:left-0 lg:min-w-[200px] w-full lg:bg-white lg:shadow-lg lg:rounded-lg lg:border lg:border-gray-200 transition-all duration-250 z-50 px-0 ${openDropdown === i
-                                ? "block lg:opacity-100 lg:visible lg:translate-y-0"
-                                : "hidden lg:block lg:opacity-0 lg:invisible lg:translate-y-1"
-                                } lg:group-hover:opacity-100 lg:group-hover:visible lg:group-hover:translate-y-0`}
-                              role="menu"
-                              aria-labelledby={`dropdown-button-${i}`}
-                              aria-hidden={openDropdown !== i}
-                            >
-                              <div data-editable="array" data-prop="dropdown">
-                                {item.dropdown.map((dropdown_item, j) => {
-                                  return (
-                                    <li
-                                      key={j}
-                                      className=""
-                                      role="none"
-                                      data-editable="array-item"
-                                    >
-                                      <a
-                                        data-astro-prefetch
-                                        className={`block px-12 lg:px-5 py-2 text-xl font-normal lg:font-medium hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset transition-all duration-200 border-b border-gray-100 last:border-b-0 ${pageUrl?.pathname === dropdown_item.dropdown_link ? "text-primary" : "text-gray-700"}`}
-                                        href={dropdown_item.dropdown_link}
-                                        onClick={closeMobileMenu}
-                                        onKeyDown={(e) => {
-                                          const menuRef = getDropdownMenuRef(i);
-                                          const menuItems =
-                                            menuRef.current?.querySelectorAll("a");
-                                          const currentIndex = Array.from(
-                                            menuItems,
-                                          ).indexOf(e.target);
-
-                                          if (e.key === "ArrowDown") {
-                                            e.preventDefault();
-                                            const nextIndex =
-                                              currentIndex < menuItems.length - 1
-                                                ? currentIndex + 1
-                                                : 0;
-                                            menuItems[nextIndex]?.focus();
-                                          } else if (e.key === "ArrowUp") {
-                                            e.preventDefault();
-                                            const prevIndex =
-                                              currentIndex > 0
-                                                ? currentIndex - 1
-                                                : menuItems.length - 1;
-                                            menuItems[prevIndex]?.focus();
-                                          } else if (e.key === "Escape") {
-                                            e.preventDefault();
-                                            // Close dropdown and return focus to button
-                                            setOpenDropdown(false);
-                                            getDropdownButtonRef(
-                                              i,
-                                            ).current?.focus();
-                                          }
-                                        }}
-                                        role="menuitem"
-                                      >
-                                        <editable-text data-prop="dropdown_text">
-                                          {dropdown_item.dropdown_text}
-                                        </editable-text>
-                                      </a>
-                                    </li>
-                                  );
-                                })}
-                              </div>
-                            </ul>
-                          </>
-                        ) : (
-                          <a
-                            data-astro-prefetch
-                            href={`${item.link}`}
-                            className={`block px-10 lg:px-5 py-3 text-2xl lg:text-xl font-normal lg:rounded-lg transition-colors duration-200 hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset ${pageUrl?.pathname === item.link ? "text-primary" : "text-gray-700"}`}
-                            onClick={closeMobileMenu}
+                              }
+                            }}
                             role="menuitem"
+                            aria-haspopup="true"
+                            aria-expanded={openDropdown === i}
+                            aria-controls={`dropdown-menu-${i}`}
                           >
                             <editable-text data-prop="text">
                               {item.text}
                             </editable-text>
-                          </a>
-                        )
-                      }
-                    </li>
-                  )
-                }
+                            <svg
+                              className={`ml-2 w-4 h-4 transition-transform duration-200 ${openDropdown === i ? "rotate-180" : ""}`}
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 9l-7 7-7-7"
+                              />
+                            </svg>
+                          </button>
+                          <ul
+                            ref={getDropdownMenuRef(i)}
+                            id={`dropdown-menu-${i}`}
+                            className={`lg:absolute lg:top-full lg:left-0 lg:min-w-[200px] w-full lg:bg-white lg:shadow-lg lg:rounded-lg lg:border lg:border-gray-200 transition-all duration-250 z-50 px-0 ${
+                              openDropdown === i
+                                ? "block lg:opacity-100 lg:visible lg:translate-y-0"
+                                : "hidden lg:block lg:opacity-0 lg:invisible lg:translate-y-1"
+                            } lg:group-hover:opacity-100 lg:group-hover:visible lg:group-hover:translate-y-0`}
+                            role="menu"
+                            aria-labelledby={`dropdown-button-${i}`}
+                            aria-hidden={openDropdown !== i}
+                          >
+                            <div data-editable="array" data-prop="dropdown">
+                              {item.dropdown.map((dropdown_item, j) => {
+                                return (
+                                  <li
+                                    key={j}
+                                    className=""
+                                    role="none"
+                                    data-editable="array-item"
+                                  >
+                                    <a
+                                      data-astro-prefetch
+                                      className={`block px-12 lg:px-5 py-2 text-xl font-normal lg:font-medium hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset transition-all duration-200 border-b border-gray-100 last:border-b-0 ${pageUrl?.pathname === dropdown_item.dropdown_link ? "text-primary" : "text-gray-700"}`}
+                                      href={dropdown_item.dropdown_link}
+                                      onClick={closeMobileMenu}
+                                      onKeyDown={(e) => {
+                                        const menuRef = getDropdownMenuRef(i);
+                                        const menuItems =
+                                          menuRef.current?.querySelectorAll(
+                                            "a",
+                                          );
+                                        const currentIndex = Array.from(
+                                          menuItems,
+                                        ).indexOf(e.target);
 
-                )}
+                                        if (e.key === "ArrowDown") {
+                                          e.preventDefault();
+                                          const nextIndex =
+                                            currentIndex < menuItems.length - 1
+                                              ? currentIndex + 1
+                                              : 0;
+                                          menuItems[nextIndex]?.focus();
+                                        } else if (e.key === "ArrowUp") {
+                                          e.preventDefault();
+                                          const prevIndex =
+                                            currentIndex > 0
+                                              ? currentIndex - 1
+                                              : menuItems.length - 1;
+                                          menuItems[prevIndex]?.focus();
+                                        } else if (e.key === "Escape") {
+                                          e.preventDefault();
+                                          // Close dropdown and return focus to button
+                                          setOpenDropdown(false);
+                                          getDropdownButtonRef(
+                                            i,
+                                          ).current?.focus();
+                                        }
+                                      }}
+                                      role="menuitem"
+                                    >
+                                      <editable-text data-prop="dropdown_text">
+                                        {dropdown_item.dropdown_text}
+                                      </editable-text>
+                                    </a>
+                                  </li>
+                                );
+                              })}
+                            </div>
+                          </ul>
+                        </>
+                      ) : (
+                        <a
+                          data-astro-prefetch
+                          href={`${item.link}`}
+                          className={`block px-10 lg:px-5 py-3 text-2xl lg:text-xl font-normal lg:rounded-lg transition-colors duration-200 hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset ${pageUrl?.pathname === item.link ? "text-primary" : "text-gray-700"}`}
+                          onClick={closeMobileMenu}
+                          role="menuitem"
+                        >
+                          <editable-text data-prop="text">
+                            {item.text}
+                          </editable-text>
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
                 <li role="none">
                   {/* Mobile nav button - shown inside mobile menu */}
                   {navigation.enable_nav_btn && isMobileMenuOpen ? (

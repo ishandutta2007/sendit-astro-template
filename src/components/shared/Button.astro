@@ -8,7 +8,14 @@ interface Props {
   [key: string]: any;
 }
 
-const { href, variant = "primary", size = "lg", text, class: className = "", ...rest } = Astro.props;
+const {
+  href,
+  variant = "primary",
+  size = "lg",
+  text,
+  class: className = "",
+  ...rest
+} = Astro.props;
 
 // Check for conflicting usage
 const hasSlotContent = Astro.slots.has("default");
@@ -18,13 +25,20 @@ if (text && hasSlotContent) {
 }
 
 // Extract CloudCannon-specific attributes for the text wrapper
-const { "data-editable": dataEditable, "data-prop": dataProp, ...elementRest } = rest;
+const {
+  "data-editable": dataEditable,
+  "data-prop": dataProp,
+  ...elementRest
+} = rest;
 
-const baseClasses = "inline-flex items-center font-extrabold border transition-all duration-300 ease-in-out tracking-wider group";
+const baseClasses =
+  "inline-flex items-center font-extrabold border transition-all duration-300 ease-in-out tracking-wider group";
 
 const variantClasses = {
-  primary: "text-secondary bg-primary hover:bg-secondary hover:text-primary border-primary",
-  secondary: "text-primary bg-secondary hover:bg-primary hover:text-white border-primary",
+  primary:
+    "text-secondary bg-primary hover:bg-secondary hover:text-primary border-primary",
+  secondary:
+    "text-primary bg-secondary hover:bg-primary hover:text-white border-primary",
   link: "text-primary border-0 bg-transparent hover:text-primary/80 gap-2",
 };
 
@@ -43,44 +57,62 @@ const linkSizeClasses = {
 const classes = `${baseClasses} ${variantClasses[variant]} ${variant === "link" ? linkSizeClasses[size] : sizeClasses[size]} ${className}`;
 ---
 
-{
-  href ? (
-    <a data-astro-prefetch href={href} class={classes} {...elementRest}>
-      {text ? (
-        dataEditable && dataProp ? (
-          <editable-text data-editable={dataEditable} data-prop={dataProp}>
-            {text}
-          </editable-text>
-        ) : (
-          text
-        )
+{href ? (
+  <a data-astro-prefetch href={href} class={classes} {...elementRest}>
+    {text ? (
+      dataEditable && dataProp ? (
+        <editable-text data-editable={dataEditable} data-prop={dataProp}>
+          {text}
+        </editable-text>
       ) : (
-        <slot />
-      )}
-      {variant === "link" && (
-        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      )}
-    </a>
-  ) : (
-    <button class={classes} {...elementRest}>
-      {text ? (
-        dataEditable && dataProp ? (
-          <editable-text data-editable={dataEditable} data-prop={dataProp}>
-            {text}
-          </editable-text>
-        ) : (
-          text
-        )
+        text
+      )
+    ) : (
+      <slot />
+    )}
+    {variant === "link" && (
+      <svg
+        class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M17 8l4 4m0 0l-4 4m4-4H3"
+        />
+      </svg>
+    )}
+  </a>
+) : (
+  <button class={classes} {...elementRest}>
+    {text ? (
+      dataEditable && dataProp ? (
+        <editable-text data-editable={dataEditable} data-prop={dataProp}>
+          {text}
+        </editable-text>
       ) : (
-        <slot />
-      )}
-      {variant === "link" && (
-        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      )}
-    </button>
-  )
-}
+        text
+      )
+    ) : (
+      <slot />
+    )}
+    {variant === "link" && (
+      <svg
+        class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M17 8l4 4m0 0l-4 4m4-4H3"
+        />
+      </svg>
+    )}
+  </button>
+)}

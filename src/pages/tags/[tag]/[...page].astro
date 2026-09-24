@@ -4,18 +4,22 @@ import BlogPagination from "@components/blog/pagination.astro";
 import Layout from "@layouts/Layout.astro";
 import type { Page } from "astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import type { PaginatedPage } from "../../../content.config";
 
 export async function getStaticPaths({ paginate }: { paginate: Function }) {
   const tags: Record<string, any> = {};
-  const page = await getEntry("pages", "blog");
+  const page = (await getEntry("pages", "blog"))?.data as
+    PaginatedPage | undefined;
   const posts = await getCollection("blog", ({ data }) => !data.draft);
-  posts.forEach(({ data }) => data.tags.forEach((tag: string) => (tags[tag] = true)));
+  posts.forEach(({ data }) =>
+    data.tags.forEach((tag: string) => (tags[tag] = true)),
+  );
 
   return Object.keys(tags).flatMap((tag) => {
     const filteredPosts = posts.filter(({ data }) => data.tags.includes(tag));
     return paginate(filteredPosts, {
       params: { tag },
-      pageSize: page?.data.page_size,
+      pageSize: page?.page_size,
     });
   });
 }
@@ -26,7 +30,8 @@ interface Props {
 }
 
 const tag = Astro.params.tag ?? "";
-const page = (await getEntry("pages", "blog"))?.data;
+const page = (await getEntry("pages", "blog"))?.data as
+  PaginatedPage | undefined;
 
 if (!page) {
   throw new Error(`Failed to find blog index page info for tag: ${tag}`);

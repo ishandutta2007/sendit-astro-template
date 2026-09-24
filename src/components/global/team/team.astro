@@ -21,39 +21,55 @@ const { title, team_members } = Astro.props;
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl xl:max-w-3xl mx-auto mb-12 lg:mb-16">
       <div class="text-center">
-        <Heading level={2} text={title} data-prop="title" data-editable="text" class="mb-4" />
+        <Heading
+          level={2}
+          text={title}
+          data-prop="title"
+          data-editable="text"
+          class="mb-4"
+        />
       </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6" data-editable="array" data-prop="team_members">
-      {
-        team_members?.map((member: TeamMember, i: number) => (
-          <div data-editable="array-item">
-            <div class="text-center group">
-              <div class="mb-6 overflow-hidden rounded-2xl">
-                <Image
-                  data-editable="image"
-                  data-prop-src="image"
-                  data-prop-alt="image_alt"
-                  src={member.image}
-                  alt={member.image_alt}
-                  loading="lazy"
-                  width={516}
-                  height={579}
-                  class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <div class="space-y-2">
-                <h3 class="text-xl font-semibold text-gray-900" data-editable="text" data-prop="name">
-                  {member.name}
-                </h3>
-                <p class="text-gray-600" data-editable="text" data-prop="designation">
-                  {member.designation}
-                </p>
-              </div>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6"
+      data-editable="array"
+      data-prop="team_members"
+    >
+      {team_members?.map((member: TeamMember, i: number) => (
+        <div data-editable="array-item">
+          <div class="text-center group">
+            <div class="mb-6 overflow-hidden rounded-2xl">
+              <Image
+                data-editable="image"
+                data-prop-src="image"
+                data-prop-alt="image_alt"
+                src={member.image}
+                alt={member.image_alt}
+                loading="lazy"
+                width={516}
+                height={579}
+                class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+            <div class="space-y-2">
+              <h3
+                class="text-xl font-semibold text-gray-900"
+                data-editable="text"
+                data-prop="name"
+              >
+                {member.name}
+              </h3>
+              <p
+                class="text-gray-600"
+                data-editable="text"
+                data-prop="designation"
+              >
+                {member.designation}
+              </p>
             </div>
           </div>
-        ))
-      }
+        </div>
+      ))}
     </div>
   </div>
 </section>

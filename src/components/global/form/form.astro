@@ -37,12 +37,11 @@ interface Props {
   form?: ContactForm;
 }
 
-
 const { address, phone, email, form } = Astro.props;
 ---
 
 <section class="mb-20">
-  <div class="bg-primary/10 bg-linear-to-b from-cyan-primary/10 to-white lg:h-60 -z-30 relative "></div>
+  <div class="bg-primary/10 bg-linear-to-b from-cyan-primary/10 to-white lg:h-60 -z-30 relative"></div>
   <div class="max-w-7xl pt-10 mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid lg:grid-cols-12 gap-8 lg:gap-16">
       <!-- Contact Information -->
@@ -51,11 +50,11 @@ const { address, phone, email, form } = Astro.props;
           {address && (
             <div class="space-y-2">
               <h3 class="text-xl font-semibold text-gray-900">
-                <editable-text data-prop="address.heading">{address.heading}</editable-text>
+                <editable-text data-prop="address.heading">
+                  {address.heading}
+                </editable-text>
               </h3>
-              <p 
-                class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
+              <p class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
                 <Image
                   data-editable="image"
                   data-prop-src="address.image"
@@ -67,17 +66,21 @@ const { address, phone, email, form } = Astro.props;
                   height={24}
                   class="w-6 h-6"
                 />
-                <editable-text data-prop="address.address">{address.address}</editable-text>
+                <editable-text data-prop="address.address">
+                  {address.address}
+                </editable-text>
               </p>
             </div>
           )}
-          
+
           {phone && (
             <div class="space-y-2">
               <h3 class="text-xl font-semibold text-gray-900">
-                <editable-text data-prop="phone.heading">{phone.heading}</editable-text>
+                <editable-text data-prop="phone.heading">
+                  {phone.heading}
+                </editable-text>
               </h3>
-              <a 
+              <a
                 href={`tel:${phone.cell}`}
                 class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
               >
@@ -92,17 +95,21 @@ const { address, phone, email, form } = Astro.props;
                   height={24}
                   class="w-6 h-6"
                 />
-                <editable-text data-prop="phone.cell">{phone.cell}</editable-text>
+                <editable-text data-prop="phone.cell">
+                  {phone.cell}
+                </editable-text>
               </a>
             </div>
           )}
-          
+
           {email && (
             <div class="space-y-2">
               <h3 class="text-xl font-semibold text-gray-900">
-                <editable-text data-prop="email.heading">{email.heading}</editable-text>
+                <editable-text data-prop="email.heading">
+                  {email.heading}
+                </editable-text>
               </h3>
-              <a 
+              <a
                 href={`mailto:${email.email}`}
                 class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
               >
@@ -117,7 +124,9 @@ const { address, phone, email, form } = Astro.props;
                   height={24}
                   class="w-6 h-6"
                 />
-                <editable-text data-prop="email.email">{email.email}</editable-text>
+                <editable-text data-prop="email.email">
+                  {email.email}
+                </editable-text>
               </a>
             </div>
           )}
@@ -128,35 +137,47 @@ const { address, phone, email, form } = Astro.props;
       <div class="lg:col-span-7 order-1 lg:order-2 lg:-mt-50">
         {form && (
           <div class="relative bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-            <div 
+            <div
               class="absolute -top-[10%] -z-10 -left-[14%] w-[115%] h-full bg-primary/30"
               style="mask-image: url(/images/contact/effects.png); -webkit-mask-image: url(/images/contact/effects.png); mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-size: contain; -webkit-mask-size: contain;"
             ></div>
             <form method="post" class="space-y-6">
               <h3 class="text-2xl font-bold text-gray-900 mb-8">
-                <editable-text data-prop="form.heading">{form.heading}</editable-text>
+                <editable-text data-prop="form.heading">
+                  {form.heading}
+                </editable-text>
               </h3>
-              
+
               {form.fullname && (
                 <div class="space-y-2">
-                  <label for="Name" class="block text-sm font-medium text-gray-700">
-                    <editable-text data-prop="form.fullname.heading">{form.fullname.heading}</editable-text>
+                  <label
+                    for="Name"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    <editable-text data-prop="form.fullname.heading">
+                      {form.fullname.heading}
+                    </editable-text>
                   </label>
-                  <input 
-                    type="text" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" 
-                    id="Name" 
-                    name="name" 
-                    placeholder={form.fullname.placeholder} 
-                    required 
+                  <input
+                    type="text"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    id="Name"
+                    name="name"
+                    placeholder={form.fullname.placeholder}
+                    required
                   />
                 </div>
               )}
 
               {form.phone_number && (
                 <div class="space-y-2">
-                  <label for="phone-number" class="block text-sm font-medium text-gray-700">
-                    <editable-text data-prop="form.phone_number.heading">{form.phone_number.heading}</editable-text>
+                  <label
+                    for="phone-number"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    <editable-text data-prop="form.phone_number.heading">
+                      {form.phone_number.heading}
+                    </editable-text>
                   </label>
                   <input
                     type="tel"
@@ -171,24 +192,34 @@ const { address, phone, email, form } = Astro.props;
 
               {form.email && (
                 <div class="space-y-2">
-                  <label for="email" class="block text-sm font-medium text-gray-700">
-                    <editable-text data-prop="form.email.heading">{form.email.heading}</editable-text>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    <editable-text data-prop="form.email.heading">
+                      {form.email.heading}
+                    </editable-text>
                   </label>
-                  <input 
-                    type="email" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" 
-                    id="email" 
-                    name="_replyto" 
-                    placeholder={form.email.placeholder} 
-                    required 
+                  <input
+                    type="email"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    id="email"
+                    name="_replyto"
+                    placeholder={form.email.placeholder}
+                    required
                   />
                 </div>
               )}
 
               {form.message && (
                 <div class="space-y-2">
-                  <label for="message" class="block text-sm font-medium text-gray-700">
-                    <editable-text data-prop="form.message.heading">{form.message.heading}</editable-text>
+                  <label
+                    for="message"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    <editable-text data-prop="form.message.heading">
+                      {form.message.heading}
+                    </editable-text>
                   </label>
                   <textarea
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors resize-vertical"
@@ -218,7 +249,6 @@ const { address, phone, email, form } = Astro.props;
                 </div>
               )}
             </form>
-            
           </div>
         )}
       </div>

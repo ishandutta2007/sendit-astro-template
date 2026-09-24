@@ -29,7 +29,18 @@ export interface Props {
   id: string;
   trigger?: string;
   triggerClass?: string;
-  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl" | "full";
+  size?:
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "6xl"
+    | "7xl"
+    | "full";
   closeOnBackdrop?: boolean;
   showCloseButton?: boolean;
   unloadOnClose?: boolean;
@@ -76,30 +87,46 @@ const dialogClasses = `
   .replace(/\s+/g, " ");
 ---
 
-{
-  trigger && (
-    <button type="button" onclick={`document.getElementById('${id}').showModal()`} class={triggerClass}>
-      {trigger}
-    </button>
-  )
-}
+{trigger && (
+  <button
+    type="button"
+    onclick={`document.getElementById('${id}').showModal()`}
+    class={triggerClass}
+  >
+    {trigger}
+  </button>
+)}
 
-<dialog id={id} class={dialogClasses} data-modal="true" data-unload-on-close={unloadOnClose}>
+<dialog
+  id={id}
+  class={dialogClasses}
+  data-modal="true"
+  data-unload-on-close={unloadOnClose}
+>
   <div class="relative w-full h-full flex flex-col">
     <!-- Close button -->
-    {
-      showCloseButton && (
-        <button
-          type="button"
-          onclick={`document.getElementById('${id}').close()`}
-          class="absolute top-4 right-4 z-10 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
-          aria-label="Close modal">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      )
-    }
+    {showCloseButton && (
+      <button
+        type="button"
+        onclick={`document.getElementById('${id}').close()`}
+        class="absolute top-4 right-4 z-10 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+        aria-label="Close modal"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    )}
 
     <!-- Header slot -->
     <div class="shrink-0 px-6 py-4 border-b border-gray-200">
@@ -118,7 +145,8 @@ const dialogClasses = `
           <button
             type="button"
             onclick={`document.getElementById('${id}').close()`}
-            class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+            class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
             Cancel
           </button>
         </div>
@@ -204,7 +232,8 @@ const dialogClasses = `
 
     modals.forEach((modal) => {
       const dialogElement = modal as HTMLDialogElement;
-      const unloadOnClose = dialogElement.getAttribute("data-unload-on-close") === "true";
+      const unloadOnClose =
+        dialogElement.getAttribute("data-unload-on-close") === "true";
 
       // Smooth close with animation
       function closeModal() {
@@ -231,7 +260,9 @@ const dialogClasses = `
 
           // Clear content after closing animation if unloadOnClose is enabled
           if (unloadOnClose) {
-            const contentSlot = dialogElement.querySelector(".flex-1.overflow-y-auto");
+            const contentSlot = dialogElement.querySelector(
+              ".flex-1.overflow-y-auto",
+            );
             if (contentSlot) {
               contentSlot.innerHTML = "";
             }
@@ -268,7 +299,9 @@ const dialogClasses = `
       // Function to attach event listeners (needed after content restoration)
       function attachEventListeners() {
         // Re-attach close button listeners
-        const closeButtons = dialogElement.querySelectorAll('button[onclick*="close()"]');
+        const closeButtons = dialogElement.querySelectorAll(
+          'button[onclick*="close()"]',
+        );
         closeButtons.forEach((btn) => {
           btn.addEventListener("click", (e) => {
             e.preventDefault();

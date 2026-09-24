@@ -40,18 +40,16 @@ const sizeStyles = {
 const classes = `text-gray-600 prose ${sizeStyles[size]} ${className}`;
 ---
 
-{
-  text ? (
-    markdown ? (
-      <div class={classes} set:html={md.render(text)} {...rest} />
-    ) : (
-      <p class={classes} {...rest}>
-        {text}
-      </p>
-    )
+{text ? (
+  markdown ? (
+    <div class={classes} set:html={md.render(text)} {...rest} />
   ) : (
-    <div class={classes} {...rest}>
-      <slot />
-    </div>
+    <p class={classes} {...rest}>
+      {text}
+    </p>
   )
-}
+) : (
+  <div class={classes} {...rest}>
+    <slot />
+  </div>
+)}

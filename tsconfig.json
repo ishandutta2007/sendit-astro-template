@@ -1,6 +1,6 @@
 {
   "extends": "astro/tsconfigs/strict",
-    "include": [
+  "include": [
     ".astro/types.d.ts",
     "**/*"
   ],
@@ -8,14 +8,13 @@
     "dist"
   ],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@data/*": ["data/*"],
-      "@components/*": ["src/components/*"],
-      "@shared/*": ["src/shared/astro/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@scripts/*": ["src/scripts/*"],
-      "@public/*": ["public/*"]
+      "@data/*": ["./data/*"],
+      "@components/*": ["./src/components/*"],
+      "@shared/*": ["./src/shared/astro/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@scripts/*": ["./src/scripts/*"],
+      "@public/*": ["./public/*"]
     },
     "strictNullChecks": true,
     "jsx": "react-jsx",

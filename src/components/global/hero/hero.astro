@@ -27,8 +27,8 @@ interface Props {
   hero_images?: HeroImage[];
 }
 
-
-const { title, description, button, image, image_alt, hero_images } = Astro.props;
+const { title, description, button, image, image_alt, hero_images } =
+  Astro.props;
 
 // Helper function to get placement class
 const getPlacementClass = (placement: string) => {
@@ -49,42 +49,67 @@ const hasMultipleImages = hero_images && hero_images.length > 0;
 const hasSingleImage = image && image_alt;
 ---
 
-
 <section class="relative isolate pt-24 bg-primary/5 overflow-hidden">
   <!-- Background shape with optimized image mask -->
   <div
     class="hidden lg:block absolute top-0 left-0 -z-10 w-96 h-[671px] bg-primary/70"
-    style="mask-image: url(/images/hero/hero-two-shape.avif); -webkit-mask-image: url(/images/hero/hero-two-shape.avif);">
-  </div>
+    style="mask-image: url(/images/hero/hero-two-shape.avif); -webkit-mask-image: url(/images/hero/hero-two-shape.avif);"
+  ></div>
 
   <!-- Second background shape -->
   <div
     class="absolute -top-[26%] lg:right-0 left-1/2 lg:left-auto -translate-x-1/2 lg:translate-x-0 -z-10 w-[904px] h-[1016px] bg-primary/30"
-    style="mask-image: url(/images/hero/hero-three-shape.avif); -webkit-mask-image: url(/images/hero/hero-three-shape.avif);">
-  </div>
+    style="mask-image: url(/images/hero/hero-three-shape.avif); -webkit-mask-image: url(/images/hero/hero-three-shape.avif);"
+  ></div>
 
   <div class="mx-auto max-w-[1500px] px-6 pt-10 pb-24 sm:pb-32 lg:flex lg:px-8 lg:py-40">
     <div class="mx-auto max-w-2xl shrink-0 lg:mx-0 lg:pt-8">
-      <Heading level={1} text={title} data-prop="title" data-editable="text" class="mb-6" />
-      <Text text={description} data-prop="description" data-editable="text" size="xl" markdown={true} class="text-pretty" />
+      <Heading
+        level={1}
+        text={title}
+        data-prop="title"
+        data-editable="text"
+        class="mb-6"
+      />
+      <Text
+        text={description}
+        data-prop="description"
+        data-editable="text"
+        size="xl"
+        markdown={true}
+        class="text-pretty"
+      />
       <div class="mt-10 flex items-center gap-x-6">
-        {button && <Button href={button.link} variant={"primary"} size={"lg"} text={button.text} data-prop="button.text" data-editable="text" />}
+        {button && (
+          <Button
+            href={button.link}
+            variant={"primary"}
+            size={"lg"}
+            text={button.text}
+            data-prop="button.text"
+            data-editable="text"
+          />
+        )}
       </div>
     </div>
-    
+
     <!-- Image Section -->
     <div class="mx-auto mt-16 grid max-w-2xl sm:mt-24 lg:mt-0 lg:mr-0 lg:ml-10 lg:max-w-none lg:flex-none xl:ml-32">
       {hasMultipleImages ? (
-        <!-- Multiple Images Layout (About Page Style) -->
-        <div class="grid grid-cols-[1fr_1fr_1fr_2fr] gap-5 max-w-3xl" data-editable="array" data-prop="hero_images">
+        <div
+          class="grid grid-cols-[1fr_1fr_1fr_2fr] gap-5 max-w-3xl"
+          data-editable="array"
+          data-prop="hero_images"
+        >
+          <!-- Multiple Images Layout (About Page Style) -->
           {hero_images.map((heroImage, i) => (
-            <div 
+            <div
               class={getPlacementClass(heroImage.placement || "")}
               data-editable="array-item"
             >
               <div class="relative w-full h-full">
-                {
-                  heroImage?.image && (
+                {heroImage?.image && (
+                  <>
                     <Image
                       data-editable="image"
                       data-prop-src="image"
@@ -93,29 +118,27 @@ const hasSingleImage = image && image_alt;
                       alt={heroImage.image_alt || ""}
                       width={600}
                       height={400}
-                      fetchpriority={i === 0 ? 'high' : undefined}
+                      fetchpriority={i === 0 ? "high" : undefined}
                       class="w-full h-full object-cover rounded-md bg-gray-50 shadow-xl ring-1 ring-white/10"
                       loading="eager"
                       decoding="async"
                     />
                     <!-- Red tint overlay -->
-                    <div 
-                      class="absolute inset-0 rounded-md bg-primary mix-blend-multiply opacity-30"
-                    ></div>
-                  )
-                }
+                    <div class="absolute inset-0 rounded-md bg-primary mix-blend-multiply opacity-30"></div>
+                  </>
+                )}
               </div>
             </div>
           ))}
           <!-- Background pattern -->
-          <div 
+          <div
             class="absolute inset-0 -z-10 w-full h-full bg-primary/50"
-            style="mask-image: url(/images/hero/pattern.png); -webkit-mask-image: url(/images/hero/pattern.png); mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center;">
-          </div>
+            style="mask-image: url(/images/hero/pattern.png); -webkit-mask-image: url(/images/hero/pattern.png); mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center;"
+          ></div>
         </div>
       ) : hasSingleImage ? (
-        <!-- Single Image Layout (Original Style) -->
         <div class="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
+          <!-- Single Image Layout (Original Style) -->
           <Image
             data-editable="image"
             data-prop-src="image"

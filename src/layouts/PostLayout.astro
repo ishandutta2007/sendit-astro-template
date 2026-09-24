@@ -30,9 +30,11 @@ type Props =
       seo?: SEOProps;
     }>;
 
-const props = "frontmatter" in Astro.props ? Astro.props.frontmatter : Astro.props;
+const props =
+  "frontmatter" in Astro.props ? Astro.props.frontmatter : Astro.props;
 const { title, date, featured_image, author } = props;
-const content = "body" in Astro.props ? Astro.props.body : (Astro.props.rawContent() ?? "");
+const content =
+  "body" in Astro.props ? Astro.props.body : (Astro.props.rawContent() ?? "");
 const wordCount = content.split(" ").length;
 const readingTime = Math.floor(wordCount / 183);
 
@@ -58,50 +60,47 @@ const posts = await getCollection("blog");
               <ul class="flex flex-wrap justify-center sm:justify-center gap-6 text-gray-600 font-semibold text-base">
                 <li class="flex items-center">
                   <p class="mb-0 text-primary">
-                    {
-                      date.toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })
-                    }
+                    {date.toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                   </p>
                 </li>
-                <li
-                  class="relative pl-2 ml-5 flex items-center before:absolute before:content-[''] before:bg-gray-400 before:w-0.5 before:h-4 before:-left-3.5 before:top-1/2 before:-translate-y-1/2">
+                <li class="relative pl-2 ml-5 flex items-center before:absolute before:content-[''] before:bg-gray-400 before:w-0.5 before:h-4 before:-left-3.5 before:top-1/2 before:-translate-y-1/2">
                   <p class="mb-0 text-primary">
                     <editable-text data-prop="author">{author}</editable-text>
                   </p>
                 </li>
-                <li
-                  class="relative pl-2 ml-5 flex items-center before:absolute before:content-[''] before:bg-gray-400 before:w-0.5 before:h-4 before:-left-3.5 before:top-1/2 before:-translate-y-1/2">
-                  <p class="mb-0 text-primary">{readingTime} <span>minutes</span></p>
+                <li class="relative pl-2 ml-5 flex items-center before:absolute before:content-[''] before:bg-gray-400 before:w-0.5 before:h-4 before:-left-3.5 before:top-1/2 before:-translate-y-1/2">
+                  <p class="mb-0 text-primary">
+                    {readingTime} <span>minutes</span>
+                  </p>
                 </li>
-                <li
-                  class="relative pl-2 ml-5 flex items-center before:absolute before:content-[''] before:bg-gray-400 before:w-0.5 before:h-4 before:-left-3.5 before:top-1/2 before:-translate-y-1/2">
-                  <p class="mb-0 text-primary">{wordCount} <span>words</span></p>
+                <li class="relative pl-2 ml-5 flex items-center before:absolute before:content-[''] before:bg-gray-400 before:w-0.5 before:h-4 before:-left-3.5 before:top-1/2 before:-translate-y-1/2">
+                  <p class="mb-0 text-primary">
+                    {wordCount} <span>words</span>
+                  </p>
                 </li>
               </ul>
             </div>
           </div>
-          {
-            featured_image.image && (
-              <div class=" mb-16 xl:mb-12 overflow-hidden">
-                <div class="max-w-[1200px] max-h-96  lg:max-h-[666px] w-full h-[666px]">
-                  <Image
-                    data-editable="image"
-                    data-prop-src="featured_image.image"
-                    data-prop-alt="featured_image.image_alt"
-                    width={1200}
-                    height={666}
-                    src={featured_image.image}
-                    class="w-full h-full  max-w-full max-h-full object-cover rounded-2xl"
-                    alt={featured_image.image_alt}
-                  />
-                </div>
+          {featured_image.image && (
+            <div class="mb-16 xl:mb-12 overflow-hidden">
+              <div class="max-w-[1200px] max-h-96 lg:max-h-[666px] w-full h-[666px]">
+                <Image
+                  data-editable="image"
+                  data-prop-src="featured_image.image"
+                  data-prop-alt="featured_image.image_alt"
+                  width={1200}
+                  height={666}
+                  src={featured_image.image}
+                  class="w-full h-full max-w-full max-h-full object-cover rounded-2xl"
+                  alt={featured_image.image_alt}
+                />
               </div>
-            )
-          }
+            </div>
+          )}
           <div class="max-w-4xl mx-auto prose lg:prose-xl">
             <editable-text data-prop="@content">
               <slot />
@@ -116,11 +115,20 @@ const posts = await getCollection("blog");
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="w-full">
         <div class="mb-12">
-          <Heading level={2} size={2} class="font-semibold font-sora text-gray-800"> Recent Blog </Heading>
+          <Heading
+            level={2}
+            size={2}
+            class="font-semibold font-sora text-gray-800"
+          >
+            {" "}
+            Recent Blog{" "}
+          </Heading>
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.slice(0, 3).map((post, i) => <PostSummary post={post} />)}
+        {posts.slice(0, 3).map((post, i) => (
+          <PostSummary post={post} />
+        ))}
       </div>
     </div>
   </section>

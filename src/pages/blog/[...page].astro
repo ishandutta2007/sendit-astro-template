@@ -3,6 +3,7 @@ import BlogList from "@components/blog/list.astro";
 import BlogPagination from "@components/blog/pagination.astro";
 import Layout from "@layouts/Layout.astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import type { PaginatedPage } from "../../content.config";
 
 export async function getStaticPaths({ paginate }: { paginate: Function }) {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -15,7 +16,8 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
   });
 
   const page = await getEntry("pages", "blog");
-  return paginate(sortedPosts, { pageSize: page?.data.page_size });
+  const pageData = page?.data as PaginatedPage | undefined;
+  return paginate(sortedPosts, { pageSize: pageData?.page_size });
 }
 
 const page = await getEntry("pages", "blog");
@@ -24,7 +26,7 @@ if (!page) {
   throw new Error("Failed to get blog index page data");
 }
 
-const frontmatter = page?.data;
+const frontmatter = page.data as PaginatedPage;
 interface BlogPaginationResult {
   data: CollectionEntry<"blog">[];
   currentPage: number;

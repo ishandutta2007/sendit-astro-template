@@ -95,84 +95,107 @@ const generatePageLinks = (): PageLink[] => {
 const pageLinks = lastPage > 1 ? generatePageLinks() : [];
 ---
 
-{
-  lastPage > 1 && (
-    <nav class="flex items-center justify-center my-16" aria-label="Pagination">
-      <ul class="flex flex-wrap items-center justify-center gap-2 md:gap-3">
-        {/* Previous Button */}
-        <li>
-          <a
-            data-astro-prefetch
-            href={prev || "#"}
-            aria-label="Previous page"
-            class={`inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 font-semibold text-lg rounded-2xl transition-all duration-300 ${
-              prev
-                ? "bg-secondary text-primary border-2 border-gray-300 hover:bg-primary hover:text-secondary hover:border-primary hover:shadow-lg hover:scale-105 active:scale-95"
-                : "bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed opacity-50"
-            }`}
-            aria-disabled={!prev}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 20.657 11.314"
-              style="transform: scale(-1, 1)"
-              class="fill-current">
-              <g data-name="Group 12">
-                <path d="M0 4.657h18v2H0z" data-name="Rectangle 2400" />
-                <path d="M13.586 9.9l5.6568542-5.6568542 1.4142136 1.4142135-5.6568542 5.6568543z" data-name="Rectangle 2401" />
-                <path d="M15 0l5.6568542 5.6568542-1.4142135 1.4142136-5.6568543-5.6568542z" data-name="Rectangle 2402" />
-              </g>
-            </svg>
-          </a>
-        </li>
+{lastPage > 1 && (
+  <nav class="flex items-center justify-center my-16" aria-label="Pagination">
+    <ul class="flex flex-wrap items-center justify-center gap-2 md:gap-3">
+      {/* Previous Button */}
+      <li>
+        <a
+          data-astro-prefetch
+          href={prev || "#"}
+          aria-label="Previous page"
+          class={`inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 font-semibold text-lg rounded-2xl transition-all duration-300 ${
+            prev
+              ? "bg-secondary text-primary border-2 border-gray-300 hover:bg-primary hover:text-secondary hover:border-primary hover:shadow-lg hover:scale-105 active:scale-95"
+              : "bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed opacity-50"
+          }`}
+          aria-disabled={!prev}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20.657 11.314"
+            style="transform: scale(-1, 1)"
+            class="fill-current"
+          >
+            <g data-name="Group 12">
+              <path d="M0 4.657h18v2H0z" data-name="Rectangle 2400" />
+              <path
+                d="M13.586 9.9l5.6568542-5.6568542 1.4142136 1.4142135-5.6568542 5.6568543z"
+                data-name="Rectangle 2401"
+              />
+              <path
+                d="M15 0l5.6568542 5.6568542-1.4142135 1.4142136-5.6568543-5.6568542z"
+                data-name="Rectangle 2402"
+              />
+            </g>
+          </svg>
+        </a>
+      </li>
 
-        {/* Page Numbers */}
-        {pageLinks.map((link) => (
-          <li>
-            {link.isEllipsis ? (
-              <span class="inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 font-semibold text-lg text-gray-400" aria-hidden="true">
-                {link.page}
-              </span>
-            ) : (
-              <a
-                data-astro-prefetch
-                href={link.href}
-                aria-label={`Go to page ${link.page}`}
-                aria-current={link.isActive ? "page" : undefined}
-                class={`inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 font-semibold text-lg rounded-2xl transition-all duration-300 ${
-                  link.isActive
-                    ? "bg-primary text-secondary border-2 border-primary shadow-lg scale-105"
-                    : "bg-secondary text-primary border-2 border-gray-300 hover:bg-primary hover:text-secondary hover:border-primary hover:shadow-lg hover:scale-105 active:scale-95"
-                }`}>
-                {link.page}
-              </a>
-            )}
-          </li>
-        ))}
-
-        {/* Next Button */}
+      {/* Page Numbers */}
+      {pageLinks.map((link) => (
         <li>
-          <a
-            data-astro-prefetch
-            href={next || "#"}
-            aria-label="Next page"
-            class={`inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 font-semibold text-lg rounded-2xl transition-all duration-300 ${
-              next
-                ? "bg-secondary text-primary border-2 border-gray-300 hover:bg-primary hover:text-secondary hover:border-primary hover:shadow-lg hover:scale-105 active:scale-95"
-                : "bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed opacity-50"
-            }`}
-            aria-disabled={!next}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20.657 11.314" class="fill-current">
-              <g data-name="Group 12">
-                <path d="M0 4.657h18v2H0z" data-name="Rectangle 2400" />
-                <path d="M13.586 9.9l5.6568542-5.6568542 1.4142136 1.4142135-5.6568542 5.6568543z" data-name="Rectangle 2401" />
-                <path d="M15 0l5.6568542 5.6568542-1.4142135 1.4142136-5.6568543-5.6568542z" data-name="Rectangle 2402" />
-              </g>
-            </svg>
-          </a>
+          {link.isEllipsis ? (
+            <span
+              class="inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 font-semibold text-lg text-gray-400"
+              aria-hidden="true"
+            >
+              {link.page}
+            </span>
+          ) : (
+            <a
+              data-astro-prefetch
+              href={link.href}
+              aria-label={`Go to page ${link.page}`}
+              aria-current={link.isActive ? "page" : undefined}
+              class={`inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 font-semibold text-lg rounded-2xl transition-all duration-300 ${
+                link.isActive
+                  ? "bg-primary text-secondary border-2 border-primary shadow-lg scale-105"
+                  : "bg-secondary text-primary border-2 border-gray-300 hover:bg-primary hover:text-secondary hover:border-primary hover:shadow-lg hover:scale-105 active:scale-95"
+              }`}
+            >
+              {link.page}
+            </a>
+          )}
         </li>
-      </ul>
-    </nav>
-  )
-}
+      ))}
+
+      {/* Next Button */}
+      <li>
+        <a
+          data-astro-prefetch
+          href={next || "#"}
+          aria-label="Next page"
+          class={`inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 font-semibold text-lg rounded-2xl transition-all duration-300 ${
+            next
+              ? "bg-secondary text-primary border-2 border-gray-300 hover:bg-primary hover:text-secondary hover:border-primary hover:shadow-lg hover:scale-105 active:scale-95"
+              : "bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed opacity-50"
+          }`}
+          aria-disabled={!next}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20.657 11.314"
+            class="fill-current"
+          >
+            <g data-name="Group 12">
+              <path d="M0 4.657h18v2H0z" data-name="Rectangle 2400" />
+              <path
+                d="M13.586 9.9l5.6568542-5.6568542 1.4142136 1.4142135-5.6568542 5.6568543z"
+                data-name="Rectangle 2401"
+              />
+              <path
+                d="M15 0l5.6568542 5.6568542-1.4142135 1.4142136-5.6568543-5.6568542z"
+                data-name="Rectangle 2402"
+              />
+            </g>
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </nav>
+)}
